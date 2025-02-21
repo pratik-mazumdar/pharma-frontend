@@ -3,7 +3,8 @@ import { useState } from "react";
 
 import Dashboard from "./pages/Dashboard";
 import InventoryPage from "./pages/InventoryPage";
-import Sidebar from "./components/Sidebar";
+import Supplier from "./pages/Supplier";
+import Sidebar from "./components/common/Sidebar";
 import { Loading } from "./pages/Loading"; 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/inventory" element={<InventoryPage />} />
+          <Route path="/supplier" element={<Supplier />}/>
         </Routes>
       </div>
     </div>

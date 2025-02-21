@@ -11,7 +11,7 @@ const SIDEBAR_ITEMS =[
         name:"Inventory", icon:ClipboardList ,color:"#2b7fff",href:"/inventory"
     },
     {
-        name:"Suppliers", icon:UserRound ,color:"#2b7fff",href:"/suppliers"
+        name:"Suppliers", icon:UserRound ,color:"#2b7fff",href:"/supplier"
     },
     {
         name:"Orders", icon:Package ,color:"#2b7fff",href:"/orders"
