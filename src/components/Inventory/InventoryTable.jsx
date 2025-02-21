@@ -1,324 +1,209 @@
 import { motion } from "framer-motion";
-
-import Button from "../common/Button";
 import { Search } from "lucide-react";
+import { useState } from "react";
 
-const INVENTORY_DATA = [
-    {
-      name: "Paracetamol 500 mg",
-      manufacturing_date: "01/2023",
-      expiry_date: "12/2025",
-      drug: "Paracetamol",
-      company: "MediCorp Pharma",
-      offers: "10% off",
-      buying_price: 0.50,
-      selling_price: 1.00,
-      supplier: "ABC Distributors",
-      stock: 150,
-      batch_number: "PC500A-2023",
-      product_code: "RX001"
-    },
-    {
-      name: "Ibuprofen 200 mg",
-      manufacturing_date: "03/2023",
-      expiry_date: "09/2025",
-      drug: "Ibuprofen",
-      company: "HealWell Pharmaceuticals",
-      offers: "5% off",
-      buying_price: 0.75,
-      selling_price: 1.50,
-      supplier: "Global Meds Ltd.",
-      stock: 120,
-      batch_number: "IB200B-2023",
-      product_code: "RX002"
-    },
-    {
-      name: "Metformin 500 mg",
-      manufacturing_date: "02/2023",
-      expiry_date: "05/2026",
-      drug: "Metformin Hydrochloride",
-      company: "HealthCorp Pharma",
-      offers: "",
-      buying_price: 1.00,
-      selling_price: 2.00,
-      supplier: "Prime Pharma Distributors",
-      stock: 90,
-      batch_number: "MT500C-2023",
-      product_code: "RX003"
-    },
-    {
-      name: "Amoxicillin 500 mg",
-      manufacturing_date: "04/2023",
-      expiry_date: "11/2025",
-      drug: "Amoxicillin",
-      company: "MediPlus Labs",
-      offers: "Buy 1 Get 10% Off",
-      buying_price: 1.20,
-      selling_price: 2.50,
-      supplier: "ABC Distributors",
-      stock: 80,
-      batch_number: "AM500D-2023",
-      product_code: "RX004"
-    },
-    {
-      name: "Cetirizine 10 mg",
-      manufacturing_date: "05/2023",
-      expiry_date: "07/2026",
-      drug: "Cetirizine Hydrochloride",
-      company: "AllergyMed Inc.",
-      offers: "",
-      buying_price: 0.60,
-      selling_price: 1.20,
-      supplier: "MediCorp Pharma",
-      stock: 70,
-      batch_number: "CT10E-2023",
-      product_code: "RX005"
-    },
-    {
-      name: "Cough Syrup 100 ml",
-      manufacturing_date: "06/2023",
-      expiry_date: "03/2025",
-      drug: "Dextromethorphan",
-      company: "Healthex Distributors",
-      offers: "15% off",
-      buying_price: 3.50,
-      selling_price: 5.50,
-      supplier: "Global Meds Ltd.",
-      stock: 60,
-      batch_number: "CS100F-2023",
-      product_code: "RX006"
-    },
-    {
-      name: "Vitamin C 500 mg",
-      manufacturing_date: "01/2023",
-      expiry_date: "12/2026",
-      drug: "Ascorbic Acid",
-      company: "NutriWell Pharma",
-      offers: "",
-      buying_price: 0.40,
-      selling_price: 0.80,
-      supplier: "Prime Pharma Distributors",
-      stock: 200,
-      batch_number: "VC500G-2023",
-      product_code: "RX007"
-    },
-    {
-      name: "Aspirin 300 mg",
-      manufacturing_date: "03/2023",
-      expiry_date: "06/2025",
-      drug: "Acetylsalicylic Acid",
-      company: "PainRelief Pharma",
-      offers: "",
-      buying_price: 0.90,
-      selling_price: 1.80,
-      supplier: "ABC Distributors",
-      stock: 130,
-      batch_number: "AS300H-2023",
-      product_code: "RX008"
-    },
-    {
-      name: "Loratadine 10 mg",
-      manufacturing_date: "04/2023",
-      expiry_date: "10/2026",
-      drug: "Loratadine",
-      company: "AllergyCare Meds",
-      offers: "5% off",
-      buying_price: 0.70,
-      selling_price: 1.40,
-      supplier: "Global Meds Ltd.",
-      stock: 50,
-      batch_number: "LR10I-2023",
-      product_code: "RX009"
-    },
-    {
-      name: "Omeprazole 20 mg",
-      manufacturing_date: "02/2023",
-      expiry_date: "08/2025",
-      drug: "Omeprazole",
-      company: "GastroCare Pharma",
-      offers: "",
-      buying_price: 1.80,
-      selling_price: 3.00,
-      supplier: "Prime Pharma Distributors",
-      stock: 95,
-      batch_number: "OM20J-2023",
-      product_code: "RX010"
-    },
-    {
-      name: "Ranitidine 150 mg",
-      manufacturing_date: "05/2023",
-      expiry_date: "04/2026",
-      drug: "Ranitidine",
-      company: "DigestiveHealth Labs",
-      offers: "",
-      buying_price: 1.50,
-      selling_price: 2.80,
-      supplier: "MediPlus Labs",
-      stock: 110,
-      batch_number: "RN150K-2023",
-      product_code: "RX011"
-    },
-    {
-      name: "Insulin 10 ml",
-      manufacturing_date: "01/2023",
-      expiry_date: "09/2024",
-      drug: "Insulin",
-      company: "DiabetesCare Ltd.",
-      offers: "",
-      buying_price: 25.00,
-      selling_price: 40.00,
-      supplier: "Healthex Distributors",
-      stock: 30,
-      batch_number: "IN10L-2023",
-      product_code: "RX012"
-    },
-    {
-      name: "Ciprofloxacin 250 mg",
-      manufacturing_date: "03/2023",
-      expiry_date: "11/2025",
-      drug: "Ciprofloxacin",
-      company: "InfectoSafe Pharma",
-      offers: "10% off",
-      buying_price: 2.50,
-      selling_price: 4.00,
-      supplier: "Global Meds Ltd.",
-      stock: 85,
-      batch_number: "CP250M-2023",
-      product_code: "RX013"
-    },
-    {
-      name: "Azithromycin 500 mg",
-      manufacturing_date: "04/2023",
-      expiry_date: "01/2027",
-      drug: "Azithromycin",
-      company: "BroadSpectrum Meds",
-      offers: "",
-      buying_price: 3.50,
-      selling_price: 6.00,
-      supplier: "Prime Pharma Distributors",
-      stock: 70,
-      batch_number: "AZ500N-2023",
-      product_code: "RX014"
-    },
-    {
-      name: "Salbutamol Inhaler",
-      manufacturing_date: "05/2023",
-      expiry_date: "05/2026",
-      drug: "Salbutamol",
-      company: "RespiraPharm",
-      offers: "",
-      buying_price: 10.00,
-      selling_price: 18.00,
-      supplier: "ABC Distributors",
-      stock: 40,
-      batch_number: "SBI-2023",
-      product_code: "RX015"
-    },
-    {
-      name: "Warfarin 5 mg",
-      manufacturing_date: "06/2023",
-      expiry_date: "07/2026",
-      drug: "Warfarin",
-      company: "CardioSafe Meds",
-      offers: "5% off",
-      buying_price: 2.00,
-      selling_price: 3.50,
-      supplier: "MediCorp Pharma",
-      stock: 45,
-      batch_number: "WF5O-2023",
-      product_code: "RX016"
-    },
-    {
-      name: "Losartan 50 mg",
-      manufacturing_date: "02/2023",
-      expiry_date: "03/2027",
-      drug: "Losartan",
-      company: "BloodPressure Labs",
-      offers: "",
-      buying_price: 1.80,
-      selling_price: 3.00,
-      supplier: "Global Meds Ltd.",
-      stock: 100,
-      batch_number: "LS50P-2023",
-      product_code: "RX017"
-    },
-    {
-      name: "Prednisolone 10 mg",
-      manufacturing_date: "04/2023",
-      expiry_date: "08/2025",
-      drug: "Prednisolone",
-      company: "SteroidMeds Ltd.",
-      offers: "10% off",
-      buying_price: 1.00,
-      selling_price: 2.00,
-      supplier: "Prime Pharma Distributors",
-      stock: 75,
-      batch_number: "PD10Q-2023",
-      product_code: "RX018"
-    },
-    {
-      name: "Multivitamin Tablets",
-      manufacturing_date: "01/2023",
-      expiry_date: "12/2026",
-      drug: "Multivitamins",
-      company: "NutriHealth Pharma",
-      offers: "",
-      buying_price: 0.80,
-      selling_price: 1.50,
-      supplier: "MediPlus Labs",
-      stock: 180,
-      batch_number: "MVTabR-2023",
-      product_code: "RX019"
-    },
-    {
-      name: "Folic Acid 5 mg",
-      manufacturing_date: "03/2023",
-      expiry_date: "10/2026",
-      drug: "Folic Acid",
-      company: "WellnessPharm",
-      offers: "",
-      buying_price: 0.90,
-      selling_price: 1.80,
-      supplier: "ABC Distributors",
-      stock: 140,
-      batch_number: "FA5S-2023",
-      product_code: "RX020"
-    }
-  ]
-  
+import AddProductModal from "./AddProductModal";
+import EditProductModal from "./EditProductModal";
+import Button from "../common/Button";
+import { INVENTORY_DATA } from "../data/INVENTORY_DATA";
+
 const InventoryTable = () => {
-  return (
-    <motion.div
-          className="bg-gray-100 mt-5 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl border border-gray-400 p-6 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay:0.2 }}
-        >
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-700">Products</h2>
-                <div className="relative flex">
-                    <Button
-                    variant="primary"
-                    label="Add Product"
-                    onClick={() => console.log("Add product clicked!")}
-                    />
-                    <Button
-                    variant="outline"
-                    label="Filters"
-                    onClick={() => console.log("Filter clicked!")}
-                    />
-                    <div>
-                    <input 
-                        type="text"
-                        placeholder="Search Products"
-                        className="bg-gray-100 text-black placeholder-gray-400 rounded-lg pl-10 pr-4 py-2  border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <Search className="absolute left-60 top-2.5  text-gray-400" size={18}/>
-                    </div>
-                </div>
 
-            </div>
-    </motion.div>
+  const [showAddModal, setShowAddModal] = useState(false);
+  const handleOpenAddModal = () => setShowAddModal(true);
+  const handleCloseAddModal = () => setShowAddModal(false);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(INVENTORY_DATA);
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const handleOpenEditModal = (product) => {
+    setSelectedProduct(product);
+    setShowEditModal(true);
+  };
+  const handleCloseEditModal = () => {
+    setSelectedProduct(null);
+    setShowEditModal(false);
+  };
+
+
+  const handleSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    const filtered = INVENTORY_DATA.filter(
+      product =>
+        product.name.toLowerCase().includes(term) ||
+        product.product_code.toLowerCase().includes(term)
+    );
+    setFilteredProducts(filtered);
+    setCurrentPage(1);
+  };
+  
+
+  const getAvailabilityLabel = (stock, totalStock = 100) => {
+      if (stock === 0) {
+         return <span className="text-red-600 font-semibold">Out of Stock</span>;
+       } else if (stock < 0.2 * totalStock) {
+         return <span className="text-yellow-600 font-semibold">Low Stock</span>;
+       }
+      return <span className="text-green-600 font-semibold">In Stock</span>;
+  };
+
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = filteredProducts.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+    
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    };
+    
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    };
+        
+
+  return (
+    <>
+      {showAddModal && <AddProductModal onClose={handleCloseAddModal} />}
+      {showEditModal && selectedProduct && (
+        <EditProductModal product={selectedProduct} onClose={handleCloseEditModal} />
+      )}
+    <motion.div
+  className="bg-gray-100 mt-5 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl border border-gray-400 p-6 mb-8"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.2 }}
+>
+  <div className="flex flex-col mb-6">
+    <div className="flex justify-between items-center mb-4">
+      <h2 className="text-xl font-semibold text-gray-700">Products</h2>
+      <div className="flex items-center space-x-2">
+        <Button
+          variant="primary"
+          label="Add Product"
+          onClick={handleOpenAddModal}
+        />
+        <Button
+          variant="outline"
+          label="Filters"
+          onClick={() => console.log("Filter clicked!")}
+        />
+      </div>
+    </div>
+
+    <div className="relative w-full">
+      <input 
+        type="text"
+        placeholder="Search Products"
+        className="w-full bg-gray-100 text-black placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onChange={handleSearch}
+        value={searchTerm}
+      />
+      <Search className="absolute left-3 top-2.5 text-gray-400" size={18}/>
+    </div>
+  </div>
+
+  {/* Table area */}
+  <div className="overflow-x-auto mt-6">
+    <table className="min-w-full divide-y divide-gray-400">
+      <thead>
+        <tr>
+          <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">
+            Name
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">
+            Manufacturing Date
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">
+            Expiry Date
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">
+            Stock
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">
+            Buying Price
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">
+            Selling Price
+          </th>          
+          <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">
+            Availability
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">
+                  Actions
+                </th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-gray-400">
+        {currentItems.map(product =>(
+            <motion.tr 
+            key={product.id}
+            initial={{ opacity:0 }}
+            animate={{ opacity:1 }}
+            transition={{ duration:  0.3 }}
+            >
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700 ">
+                    {product.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500 ">
+                    {product.manufacturing_date}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500 ">
+                    {product.expiry_date}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500 ">
+                    {product.stock}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500 ">
+                    {product.buying_price}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500 ">
+                    {product.selling_price}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    {getAvailabilityLabel(product.stock, 100)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <Button
+                      variant="outline"
+                      label="Edit"
+                      onClick={() => handleOpenEditModal(product)}
+                    />
+                  </td>
+            </motion.tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div className="flex justify-between items-center mt-6">
+          <button
+            onClick={goToPreviousPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="text-sm text-gray-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+  </div>
+</motion.div>
+</>
   )
 }
 

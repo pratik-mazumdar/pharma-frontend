@@ -4,7 +4,7 @@ import { useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import InventoryPage from "./pages/InventoryPage";
 import Sidebar from "./components/Sidebar";
-import { Loading } from "./pages/Loading"; // Confirm correct path
+import { Loading } from "./pages/Loading"; 
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -22,12 +22,10 @@ function App() {
         <div className="absolute inset-0 backdrop-blur-sm" />
       </div>
 
-      {/* Loading Overlay */}
       {!isLoaded && (
         <Loading onComplete={handleLoadingComplete} />
       )}
 
-      {/* Main Content */}
       <div
         className={`flex h-full w-full transition-opacity duration-700 ${
           isLoaded ? "opacity-100" : "opacity-0 pointer-events-none"
