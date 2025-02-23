@@ -4,9 +4,9 @@ import Header from "../components/common/Header";
 import InventoryStatCard from "../components/Inventory/InventoryStatCard";
 import InventoryTable from "../components/Inventory/InventoryTable";
 
-const InventoryPage = () => {
+const Orders = () => {
 
-  const OverallInventoryStats = [
+  const OverallOrderStats = [
     {
       title: "Categories",
       value1: "14",
@@ -44,7 +44,7 @@ const InventoryPage = () => {
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title="Inventory"/>
+      <Header title="Orders"/>
 
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {/* STATS */}
@@ -55,7 +55,7 @@ const InventoryPage = () => {
           transition={{ duration: 1, staggerChildren: 0.2 }}
         >
           <div className="col-span-10 h-full">
-            <InventoryStatCard cardTitle="Overall Inventory" stats={OverallInventoryStats} />
+            <InventoryStatCard cardTitle="Overall Orders" stats={OverallOrderStats} />
           </div>
         </motion.div>
 
@@ -65,4 +65,4 @@ const InventoryPage = () => {
   )
 }
 
-export default InventoryPage
+export default Orders;

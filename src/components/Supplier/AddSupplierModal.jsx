@@ -56,7 +56,7 @@ const AddSupplierModal = ({ onClose }) => {
             <label className="block text-sm text-gray-600 mb-1">Supplier Name</label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter supplier name"
               value={supplierName}
               onChange={(e) => setSupplierName(e.target.value)}
@@ -67,7 +67,7 @@ const AddSupplierModal = ({ onClose }) => {
             <label className="block text-sm text-gray-600 mb-1">Product</label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter product name"
               value={product}
               onChange={(e) => setProduct(e.target.value)}
@@ -77,7 +77,7 @@ const AddSupplierModal = ({ onClose }) => {
             <label className="block text-sm text-gray-600 mb-1">Contact Number</label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter contact number"
               value={contactNumber}
               onChange={(e) => setContactNumber(e.target.value)}
@@ -87,7 +87,7 @@ const AddSupplierModal = ({ onClose }) => {
             <label className="block text-sm text-gray-600 mb-1">Email</label>
             <input
               type="email"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}

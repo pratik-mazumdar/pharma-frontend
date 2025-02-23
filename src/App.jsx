@@ -1,11 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import { useState } from "react";
 
-import Dashboard from "./pages/Dashboard";
+// import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
-import Supplier from "./pages/Supplier";
+// import Supplier from "./pages/Supplier";
 import Sidebar from "./components/common/Sidebar";
 import { Loading } from "./pages/Loading"; 
+import Orders from "./pages/Orders";
+import Settings  from "./pages/Settings";
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,9 +36,11 @@ function App() {
       >
         <Sidebar />
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/inventory" element={<Inventory />} />
-          <Route path="/supplier" element={<Supplier />}/>
+          {/* <Route path="/" element={<Dashboard />} /> */}
+          <Route path="/" element={<Inventory />} />
+          {/* <Route path="/supplier" element={<Supplier />}/> */}
+          <Route path="/orders" element={<Orders />}/>
+          <Route path="/settings" element={<Settings />}/>
         </Routes>
       </div>
     </div>

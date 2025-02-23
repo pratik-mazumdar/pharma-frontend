@@ -56,7 +56,7 @@ const AddProductModal = ({ onClose }) => {
             </label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter product name"
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
@@ -70,7 +70,7 @@ const AddProductModal = ({ onClose }) => {
             </label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="MM/YYYY"
               value={manufacturingDate}
               onChange={(e) => setManufacturingDate(e.target.value)}
@@ -81,7 +81,7 @@ const AddProductModal = ({ onClose }) => {
             <label className="block text-sm text-gray-600 mb-1">Expiry Date</label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="MM/YYYY"
               value={expiryDate}
               onChange={(e) => setExpiryDate(e.target.value)}
@@ -92,7 +92,7 @@ const AddProductModal = ({ onClose }) => {
             <label className="block text-sm text-gray-600 mb-1">Stock</label>
             <input
               type="number"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter stock quantity"
               value={stock}
               onChange={(e) => setStock(e.target.value)}
@@ -106,7 +106,7 @@ const AddProductModal = ({ onClose }) => {
             <input
               type="number"
               step="0.01"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter buying price"
               value={buyingPrice}
               onChange={(e) => setBuyingPrice(e.target.value)}
@@ -120,7 +120,7 @@ const AddProductModal = ({ onClose }) => {
             <input
               type="number"
               step="0.01"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter selling price"
               value={sellingPrice}
               onChange={(e) => setSellingPrice(e.target.value)}
@@ -132,7 +132,7 @@ const AddProductModal = ({ onClose }) => {
             </label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter supplier name"
               value={supplierName}
               onChange={(e) => setSupplierName(e.target.value)}
@@ -145,7 +145,7 @@ const AddProductModal = ({ onClose }) => {
             </label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter drug name"
               value={drug}
               onChange={(e) => setDrug(e.target.value)}
