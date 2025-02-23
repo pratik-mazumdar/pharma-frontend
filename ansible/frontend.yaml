@@ -1,0 +1,37 @@
+- name: Pharma Frontend Deployment
+  hosts: webservers
+  tasks:
+    - name: Git Pull Api
+      ansible.builtin.git:
+        repo: git@github.com:pratik-mazumdar/pharma-frontend.git
+        dest: /root/pharma/frontend
+        update: yes
+        version: master
+
+    # - name: Build protocol using Docker Compose
+    #   community.docker.docker_compose_v2:
+    #     project_src: /root/dream-monks-sdk
+    #     files:
+    #       - docker-compose.production.yml
+    #     build: always
+
+    - name: Run npm install
+      shell: bash -c "source $HOME/.nvm/nvm.sh && nvm use 22 && npm i"
+      args:
+        chdir: /root/pharma/frontend
+
+    - name: Run npm build
+      shell: bash -c "source $HOME/.nvm/nvm.sh && nvm use 22 && npm run build"
+      args:
+        chdir: /root/pharma/frontend
+
+    # - name: Create env file
+    #   copy:
+    #     content: "{{ lookup('env', 'ANSIBLE_ENV_FILE') }}"
+    #     dest: /root/pharma/backend/build/.env
+    #     mode: '0644'
+    
+    - name: Restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
