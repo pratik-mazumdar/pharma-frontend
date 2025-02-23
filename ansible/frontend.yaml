@@ -6,7 +6,7 @@
         repo: git@github.com:pratik-mazumdar/pharma-frontend.git
         dest: /root/pharma/frontend
         update: yes
-        version: master
+        version: main
 
     # - name: Build protocol using Docker Compose
     #   community.docker.docker_compose_v2:
