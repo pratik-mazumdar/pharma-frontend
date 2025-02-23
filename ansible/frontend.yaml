@@ -26,7 +26,7 @@
         chdir: /root/pharma/frontend
 
     - name: Move build folder to deployment directory
-      command: mv /root/pharma/frontend/build /var/www/pharma-frontend
+      command: mv /root/pharma/frontend/dist /var/www/pharma-frontend
       args:
         removes: /var/www/pharma-frontend
       become: yes
