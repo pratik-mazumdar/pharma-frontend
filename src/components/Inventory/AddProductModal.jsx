@@ -9,6 +9,8 @@ const AddProductModal = ({ onClose }) => {
   const [stock, setStock] = useState("");
   const [buyingPrice, setBuyingPrice] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
+  const [supplierName, setSupplierName] = useState("");
+  const [drug, setDrug] = useState("");
 
   const handleAddProduct = (e) => {
     e.preventDefault();
@@ -122,6 +124,32 @@ const AddProductModal = ({ onClose }) => {
               placeholder="Enter selling price"
               value={sellingPrice}
               onChange={(e) => setSellingPrice(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+            Supplier
+            </label>
+            <input
+              type="text"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter supplier name"
+              value={supplierName}
+              onChange={(e) => setSupplierName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+            Drug
+            </label>
+            <input
+              type="text"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter drug name"
+              value={drug}
+              onChange={(e) => setDrug(e.target.value)}
+              required
             />
           </div>
 

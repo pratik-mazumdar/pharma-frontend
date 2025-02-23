@@ -26,7 +26,7 @@ const OverviewChart = () => {
         <div className="h-60">
             <ResponsiveContainer width={"100%"} height={"100%"}>
                 <BarChart data={salesData} barSize={15}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#4B5563"/>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB"/>
                     <XAxis dataKey={"name"}/>
                     <YAxis stroke="#9ca3af"/>
                     <Tooltip 

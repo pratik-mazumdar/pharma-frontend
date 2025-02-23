@@ -15,8 +15,8 @@ const InventoryStatCard = ({ cardTitle, stats }) => {
             <h3 className="text-md font-bold mb-4" style={{ color: "#2b7fff" }}>
               {stat.title}
             </h3>
-            <div className="flex justify-center items-center gap-8 mb-2">
-              <div className="flex flex-col items-center">
+            <div className="flex justify-between items-center gap-8 mb-2">
+              <div className="flex flex-col items-center ">
                 <p className="text-2xl font-medium text-gray-900">
                   {stat.value1}
                 </p>
@@ -24,7 +24,7 @@ const InventoryStatCard = ({ cardTitle, stats }) => {
                   {stat.label1 || ""}
                 </p>
               </div>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center pr-2">
                 <p className="text-2xl font-medium text-gray-900">
                   {stat.currency ? `₹ ${stat.value2}` : stat.value2}
                 </p>

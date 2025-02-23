@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { useState } from "react";
 
 import Dashboard from "./pages/Dashboard";
-import InventoryPage from "./pages/InventoryPage";
+import Inventory from "./pages/Inventory";
 import Supplier from "./pages/Supplier";
 import Sidebar from "./components/common/Sidebar";
 import { Loading } from "./pages/Loading"; 
@@ -35,7 +35,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/inventory" element={<InventoryPage />} />
+          <Route path="/inventory" element={<Inventory />} />
           <Route path="/supplier" element={<Supplier />}/>
         </Routes>
       </div>
