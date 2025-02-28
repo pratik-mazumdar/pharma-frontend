@@ -1,13 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import { useState } from "react";
 
-// import Dashboard from "./pages/Dashboard";
-import Inventory from "./pages/Inventory";
-// import Supplier from "./pages/Supplier";
+// import Dashboard from "./components/pages/Dashboard";
+import Inventory from "./components/pages/Inventory";
+// import Supplier from "./components/pages/Supplier";
 import Sidebar from "./components/common/Sidebar";
-import { Loading } from "./pages/Loading"; 
-import Orders from "./pages/Orders";
-import Settings  from "./pages/Settings";
+import { Loading } from "./components/pages/Loading"; 
+import Orders from "./components/pages/Orders";
+import Settings  from "./components/pages/Settings";
+import Login from "./components/pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -19,28 +21,36 @@ function App() {
 
   return (
     <div className="flex h-screen bg-white text-gray-900 overflow-hidden relative">
-      {/* BG */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-300 via-gray-200 to-gray-300 opacity-80" />
-        <div className="absolute inset-0 backdrop-blur-sm" />
-      </div>
-
-      {!isLoaded && (
-        <Loading onComplete={handleLoadingComplete} />
-      )}
+      {/* Loading */}
+      {!isLoaded && <Loading onComplete={handleLoadingComplete} />}
 
       <div
         className={`flex h-full w-full transition-opacity duration-700 ${
           isLoaded ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
-        <Sidebar />
         <Routes>
-          {/* <Route path="/" element={<Dashboard />} /> */}
-          <Route path="/" element={<Inventory />} />
-          {/* <Route path="/supplier" element={<Supplier />}/> */}
-          <Route path="/orders" element={<Orders />}/>
-          <Route path="/settings" element={<Settings />}/>
+          <Route path="/login" element={<Login />} />
+
+          {/* Protected Route */}
+          <Route
+            path="/*"
+            element={
+              <ProtectedRoute>
+                {/* Move the backdrop here */}
+                <div className="fixed inset-0 z-0">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-300 via-gray-200 to-gray-300 opacity-80" />
+                  <div className="absolute inset-0 backdrop-blur-sm" />
+                </div>
+                  <Sidebar />
+                  <Routes>
+                    <Route path="/" element={<Inventory />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/settings" element={<Settings />} />
+                  </Routes>
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </div>

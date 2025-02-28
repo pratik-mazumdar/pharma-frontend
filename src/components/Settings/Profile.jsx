@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { User } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 import SettingSection from "./SettingSection";
 import Button from "../common/Button";
-import LogoutModal from "../common/LogoutModal"; 
+import LogoutModal from "../common/LogoutModal";
+import { logout } from "../../Redux/Reducers/Authslice"; 
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const token = useSelector((state) => state.auth.token);
 
   const handleLogoutClick = () => {
     setShowLogoutModal(true);
@@ -15,10 +22,15 @@ const Profile = () => {
     setShowLogoutModal(false);
   };
 
-  const handleConfirmLogout = () => {
-    console.log("User logged out");
-    // Perform logout logic (clear tokens, redirect, etc.)
-    setShowLogoutModal(false);
+  const handleConfirmLogout = async () => {
+    try {
+      await dispatch(logout(token));
+      console.log("User logged out");
+      setShowLogoutModal(false);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   return (

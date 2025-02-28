@@ -1,7 +1,7 @@
-import Header from "../components/common/Header"
-import Profile from "../components/Settings/Profile"
-import Notifications from "../components/Settings/Notifications"
-import ConnectedAccounts from "../components/Settings/ConnectedAccounts"
+import Header from "../common/Header"
+import Profile from "../Settings/Profile"
+// import Notifications from "../Settings/Notifications"
+import ConnectedAccounts from "../Settings/ConnectedAccounts"
 
 const Settings = () => {
   return (
@@ -9,7 +9,7 @@ const Settings = () => {
         <Header title="Settings"/>
         <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
             <Profile/>
-            <Notifications/>
+            {/* <Notifications/> */}
             <ConnectedAccounts/>
         </main>
 

@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 
-import Header from "../components/common/Header";
-import InventoryStatCard from "../components/Inventory/InventoryStatCard";
-import InventoryTable from "../components/Inventory/InventoryTable";
+import Header from "../common/Header";
+import InventoryStatCard from "../Inventory/InventoryStatCard";
+import InventoryTable from "../Inventory/InventoryTable";
 
 const Inventory = () => {
 

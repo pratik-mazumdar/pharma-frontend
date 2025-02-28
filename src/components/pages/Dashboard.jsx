@@ -1,10 +1,10 @@
 import { BookX, Clipboard, CircleUserRound, Undo2, Percent, BarChart, LineChart, IndianRupee, Package2, MapPinHouse,  ShoppingBasket} from "lucide-react";
 import { motion } from "framer-motion";
 
-import Header from "../components/common/Header";
-import OverViewStatCard from "../components/Dashboard/OverViewStatCard";
-import OverviewBarChart from "../components/Dashboard/OverviewBarChart";
-import OverviewLineChart from "../components/Dashboard/OverviewLineChart";
+import Header from "../common/Header";
+import OverViewStatCard from "../Dashboard/OverViewStatCard";
+import OverviewBarChart from "../Dashboard/OverviewBarChart";
+import OverviewLineChart from "../Dashboard/OverviewLineChart";
 
 const Dashboard = () => {
 

@@ -1,5 +1,5 @@
-import Header from "../components/common/Header";
-import SupplierTable from "../components/Supplier/SupplierTable";
+import Header from "../common/Header";
+import SupplierTable from "../Supplier/SupplierTable";
 
 const Supplier = () => {
   return (
