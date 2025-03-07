@@ -37,7 +37,7 @@
     #     dest: /root/pharma/backend/build/.env
     #     mode: '0644'
     
-    - name: Restart nginx
-      ansible.builtin.service:
-        name: nginx
-        state: restarted
+    # - name: Restart nginx
+    #   ansible.builtin.service:
+    #     name: nginx
+    #     state: restarted
