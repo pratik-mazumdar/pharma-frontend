@@ -27,8 +27,6 @@
 
     - name: Move build folder to deployment directory
       command: cp -r /root/pharma/frontend/dist /var/www/pharma-frontend/
-      args:
-        removes: /var/www/pharma-frontend
       become: yes
 
     # - name: Create env file
