@@ -10,7 +10,8 @@ import Button from "../common/Button";
 
 const InventoryTable = () => {
   const dispatch = useDispatch();
-  const { data: productList = [], meta = {} } = useSelector((state) => state.products.products) || {};
+  const { data: productList = [], meta = {} } =
+    useSelector((state) => state.products.products) || {};
   const { currentPage = 1, lastPage: totalPages = 1 } = meta;
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
@@ -22,7 +23,9 @@ const InventoryTable = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    dispatch(fetchProducts(page)).then((res) => console.log("Fetched Products Response:", res));
+    dispatch(fetchProducts(page)).then((res) =>
+      console.log("Fetched Products Response:", res)
+    );
   }, [dispatch, page]);
 
   const handleSearch = (e) => {
@@ -30,21 +33,28 @@ const InventoryTable = () => {
     setPage(1);
   };
 
-  const filteredProducts = productList.filter(
-    (product) => product.name?.toLowerCase().includes(searchTerm)
+  const filteredProducts = productList.filter((product) =>
+    product.name?.toLowerCase().includes(searchTerm)
   );
 
   const getAvailabilityLabel = (stock) => {
-    if (stock === 0) return <span className="text-red-600 font-semibold">Out of Stock</span>;
-    if (stock < 20) return <span className="text-yellow-600 font-semibold">Low Stock</span>;
+    if (stock === 0)
+      return <span className="text-red-600 font-semibold">Out of Stock</span>;
+    if (stock < 20)
+      return <span className="text-yellow-600 font-semibold">Low Stock</span>;
     return <span className="text-green-600 font-semibold">In Stock</span>;
   };
 
   return (
     <>
-      {showAddModal && <AddProductModal onClose={() => setShowAddModal(false)} />}
+      {showAddModal && (
+        <AddProductModal onClose={() => setShowAddModal(false)} />
+      )}
       {showEditModal && selectedProduct && (
-        <EditProductModal product={selectedProduct} onClose={() => setShowEditModal(false)} />
+        <EditProductModal
+          product={selectedProduct}
+          onClose={() => setShowEditModal(false)}
+        />
       )}
 
       <motion.div
@@ -55,7 +65,11 @@ const InventoryTable = () => {
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-700">Products</h2>
-          <Button variant="primary" label="Add Product" onClick={() => setShowAddModal(true)} />
+          <Button
+            variant="primary"
+            label="Add Product"
+            onClick={() => setShowAddModal(true)}
+          />
         </div>
 
         <div className="relative w-full mb-4">
@@ -76,32 +90,74 @@ const InventoryTable = () => {
         ) : productList.length === 0 ? (
           <p className="text-center text-gray-700">No products available.</p>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="w-full overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-400">
               <thead>
                 <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">Manufacturing Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">Expiry Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">Stock</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">Buying Price</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">Selling Price</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">Availability</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight">Actions</th>
-                                </tr>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight whitespace-nowrap">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight whitespace-nowrap">
+                    Manufacturing Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight whitespace-nowrap">
+                    Expiry Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight whitespace-nowrap">
+                    Stock
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight whitespace-nowrap">
+                    Buying Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight whitespace-nowrap">
+                    Selling Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight whitespace-nowrap">
+                    Availability
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-tight whitespace-nowrap">
+                    Actions
+                  </th>
+                </tr>
               </thead>
               <tbody className="divide-y divide-gray-400">
                 {filteredProducts.map((product) => (
-                  <motion.tr key={product.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-<td className="px-6 py-4 text-sm font-medium text-gray-700">{product.name}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{product.manufacturingDate}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{product.expiryDate}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{product.stock}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{product.buyingPrice}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{product.sellingPrice}</td>
-                                        <td className="px-6 py-4 text-sm font-medium">{getAvailabilityLabel(product.stock)}</td>
-                                        <td className="px-6 py-4 text-sm font-medium">
-                      <Button variant="outline" label="Edit" onClick={() => { setSelectedProduct(product); setShowEditModal(true); }} />
+                  <motion.tr
+                    key={product.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <td className="px-6 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                      {product.name}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-500 whitespace-nowrap">
+                      {product.manufacturingDate}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-500 whitespace-nowrap">
+                      {product.expiryDate}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-500 whitespace-nowrap">
+                      {product.stock}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-500 whitespace-nowrap">
+                      {product.buyingPrice}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-500 whitespace-nowrap">
+                      {product.sellingPrice}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                      {getAvailabilityLabel(product.stock)}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                      <Button
+                        variant="outline"
+                        label="Edit"
+                        onClick={() => {
+                          setSelectedProduct(product);
+                          setShowEditModal(true);
+                        }}
+                      />
                     </td>
                   </motion.tr>
                 ))}
@@ -112,9 +168,23 @@ const InventoryTable = () => {
 
         {totalPages > 1 && (
           <div className="flex justify-between items-center mt-6">
-            <button onClick={() => setPage((prev) => Math.max(prev - 1, 1))} disabled={page === 1} className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50">Previous</button>
-            <span className="text-sm text-gray-700">Page {page} of {totalPages}</span>
-            <button onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))} disabled={page === totalPages} className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50">Next</button>
+            <button
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+              disabled={page === 1}
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-gray-700">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={page === totalPages}
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
           </div>
         )}
       </motion.div>

@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createProduct, fetchProducts, fetchProductCount} from "../../Redux/Reducers/Productslice";
+import {
+  createProduct,
+  fetchProducts,
+  fetchProductSummary,
+} from "../../Redux/Reducers/Productslice";
 
 const AddProductModal = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -14,7 +18,7 @@ const AddProductModal = ({ onClose }) => {
   const [sellingPrice, setSellingPrice] = useState("");
   const [supplier, setSupplier] = useState("");
   const [drug, setDrug] = useState("");
-  
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
 
@@ -24,17 +28,16 @@ const AddProductModal = ({ onClose }) => {
       expiryDate,
       buyingPrice: parseFloat(buyingPrice),
       sellingPrice: parseFloat(sellingPrice),
-      isLowStock: parseInt(stock) <= 10,
       stock: parseInt(stock),
+      isLowStock: parseInt(stock) <= 10,
       supplier,
       drug,
     };
 
     try {
-      // Dispatch API call to create a product
       await dispatch(createProduct(newProduct)).unwrap();
-      await dispatch(fetchProducts());
-      await dispatch(fetchProductCount());
+      await dispatch(fetchProducts(1)); // Fetch first page of products
+      await dispatch(fetchProductSummary()); // Fetch updated product summary
       onClose();
     } catch (error) {
       console.error("Error adding product:", error);
@@ -43,8 +46,7 @@ const AddProductModal = ({ onClose }) => {
 
   return (
     <motion.div
-    className="fixed inset-0 z-50 flex items-center justify-center"
-    style={{ backgroundColor: "rgba(156, 163, 175, 0.5)" }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -57,21 +59,91 @@ const AddProductModal = ({ onClose }) => {
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-800">Add Product</h2>
-          <button onClick={onClose} className="text-gray-600 hover:text-gray-800">&times;</button>
+          <button
+            onClick={onClose}
+            className="text-gray-600 hover:text-gray-800"
+          >
+            &times;
+          </button>
         </div>
         <form onSubmit={handleAddProduct} className="space-y-4">
-          <input type="text" placeholder="Product Name" value={productName} onChange={(e) => setProductName(e.target.value)} required className="w-full border p-2 rounded" />
-          <input type="date" placeholder="Manufacturing Date" value={manufacturingDate} onChange={(e) => setManufacturingDate(e.target.value)} className="w-full border p-2 rounded" />
-          <input type="date" placeholder="Expiry Date" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} className="w-full border p-2 rounded" />
-          <input type="number" placeholder="Stock" value={stock} onChange={(e) => setStock(e.target.value)} required className="w-full border p-2 rounded" />
-          <input type="number" step="0.01" placeholder="Buying Price" value={buyingPrice} onChange={(e) => setBuyingPrice(e.target.value)} required className="w-full border p-2 rounded" />
-          <input type="number" step="0.01" placeholder="Selling Price" value={sellingPrice} onChange={(e) => setSellingPrice(e.target.value)} required className="w-full border p-2 rounded" />
-          <input type="text" placeholder="Supplier" value={supplier} onChange={(e) => setSupplier(e.target.value)} required className="w-full border p-2 rounded" />
-          <input type="text" placeholder="Drug" value={drug} onChange={(e) => setDrug(e.target.value)} required className="w-full border p-2 rounded" />
-          
+          <input
+            type="text"
+            placeholder="Product Name"
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+            required
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="date"
+            value={manufacturingDate}
+            onChange={(e) => setManufacturingDate(e.target.value)}
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="date"
+            value={expiryDate}
+            onChange={(e) => setExpiryDate(e.target.value)}
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="number"
+            placeholder="Stock"
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
+            required
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="number"
+            step="0.01"
+            placeholder="Buying Price"
+            value={buyingPrice}
+            onChange={(e) => setBuyingPrice(e.target.value)}
+            required
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="number"
+            step="0.01"
+            placeholder="Selling Price"
+            value={sellingPrice}
+            onChange={(e) => setSellingPrice(e.target.value)}
+            required
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="text"
+            placeholder="Supplier"
+            value={supplier}
+            onChange={(e) => setSupplier(e.target.value)}
+            required
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="text"
+            placeholder="Drug"
+            value={drug}
+            onChange={(e) => setDrug(e.target.value)}
+            required
+            className="w-full border p-2 rounded"
+          />
+
           <div className="flex justify-end space-x-4 mt-4">
-            <button type="button" onClick={onClose} className="text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">Discard</button>
-            <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Add Product</button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200"
+            >
+              Discard
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            >
+              Add Product
+            </button>
           </div>
         </form>
       </motion.div>

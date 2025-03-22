@@ -68,8 +68,8 @@ const Sidebar = () => {
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
-            className="fixed inset-0 flex flex-col p-6 text-grey-700 z-50 lg:hidden"
-            style={{ backgroundColor: "rgba(156, 163, 175, 0.8)" }}
+            className="fixed inset-0 flex flex-col p-6 text-grey-700 z-50 lg:hidden w-50%"
+            style={{ backgroundColor: "rgba(156, 163, 175, 0.9)" }}
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
@@ -89,7 +89,7 @@ const Sidebar = () => {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className="flex items-center gap-3 p-3 text-lg bg-gray-300 rounded-lg border-2 border-gray-500"
+                  className="flex items-center gap-3 p-3 text-lg bg-gray-300 rounded-lg"
                   onClick={() => setIsSidebarOpen(false)}
                 >
                   <item.icon size={24} style={{ color: item.color }} />

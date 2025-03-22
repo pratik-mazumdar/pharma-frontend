@@ -54,14 +54,14 @@ export const createProduct = createAsyncThunk(
   }
 );
 
-// Thunk to edit a product
+// Thunk to edit a product (Fix: Add product ID in API URL)
 export const editProduct = createAsyncThunk(
   "products/editProduct",
-  async (productData, { getState, rejectWithValue, dispatch }) => {
+  async ({ id, productData }, { getState, rejectWithValue, dispatch }) => {
     try {
       const token = getAuthToken(getState);
       const response = await axios.put(
-        `${API_BASE_URL}/api/products`,
+        `${API_BASE_URL}/api/products/${id}`, // FIXED: Append ID to URL
         productData,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -83,19 +83,23 @@ export const editProduct = createAsyncThunk(
   }
 );
 
-// Thunk to fetch product count
-export const fetchProductCount = createAsyncThunk(
-  "products/fetchCount",
+// Thunk to fetch product summary
+export const fetchProductSummary = createAsyncThunk(
+  "products/fetchSummary",
   async (_, { getState, rejectWithValue, dispatch }) => {
     try {
       const token = getAuthToken(getState);
-      const response = await axios.get(`${API_BASE_URL}/api/products/count`, {
+      const response = await axios.get(`${API_BASE_URL}/api/products/summary`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      return response.data.products.count;
+
+      // Extract necessary values from response
+      const { count, lowStock, expired } = response.data.products;
+
+      return { count, lowStock, expired };
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to fetch products count";
+        error.response?.data?.message || "Failed to fetch product summary";
       dispatch(showSnackbar({ message: errorMessage, type: "error" }));
       return rejectWithValue(errorMessage);
     }
@@ -104,13 +108,17 @@ export const fetchProductCount = createAsyncThunk(
 
 const initialState = {
   products: { data: [], meta: {} },
+  count: 0,
+  lowStock: 0,
+  expired: 0,
+  status: "idle",
   loading: false,
   error: null,
 };
 
 const productSlice = createSlice({
   name: "products",
-  initialState,
+  initialState, // FIXED: Pass correct initial state
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -160,17 +168,18 @@ const productSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Fetch Product Count
-      .addCase(fetchProductCount.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      // Fetch Product Summary
+      .addCase(fetchProductSummary.pending, (state) => {
+        state.status = "loading";
       })
-      .addCase(fetchProductCount.fulfilled, (state, action) => {
-        state.loading = false;
-        state.productCount = action.payload;
+      .addCase(fetchProductSummary.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.count = action.payload.count;
+        state.lowStock = action.payload.lowStock;
+        state.expired = action.payload.expired;
       })
-      .addCase(fetchProductCount.rejected, (state, action) => {
-        state.loading = false;
+      .addCase(fetchProductSummary.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload;
       });
   },
