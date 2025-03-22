@@ -23,7 +23,6 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center w-full bg-gray-50">
       {/* Left Panel: Logo / Branding */}
       <div className="hidden lg:flex w-1/2 bg-gray-50 items-center justify-center">
-        {/* Replace with your actual brand logo */}
         <img
           src="/Logo.svg"
           alt="Logo"
@@ -45,8 +44,6 @@ const Login = () => {
 
           <h2 className="text-2xl font-bold mb-2">Log in to your account</h2>
           <p className="text-gray-600 mb-8">Welcome back! Please enter your details.</p>
-
-          {/* Error Message */}
           {error && <div className="text-red-600 mb-2">{error}</div>}
 
           {/* Login Form */}

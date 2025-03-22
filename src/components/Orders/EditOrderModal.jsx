@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { editProduct } from "../../Redux/Reducers/Productslice";
 
-const EditProductModal = ({ product, onClose }) => {
-  const dispatch = useDispatch();
-
+const EditOrderModal = ({ product, onClose }) => {
   // Pre-fill form state with product values
   const [productName, setProductName] = useState(product.name);
   const [manufacturingDate, setManufacturingDate] = useState(product.manufacturing_date);
@@ -13,14 +9,12 @@ const EditProductModal = ({ product, onClose }) => {
   const [stock, setStock] = useState(product.stock);
   const [buyingPrice, setBuyingPrice] = useState(product.buying_price);
   const [sellingPrice, setSellingPrice] = useState(product.selling_price);
-  const [loading, setLoading] = useState(false);
 
-  const handleUpdateProduct = async (e) => {
+  const handleUpdateProduct = (e) => {
     e.preventDefault();
-    setLoading(true);
-
+    // Construct updated product object
     const updatedProduct = {
-      id: product.id,
+      ...product,
       name: productName,
       manufacturing_date: manufacturingDate,
       expiry_date: expiryDate,
@@ -29,15 +23,9 @@ const EditProductModal = ({ product, onClose }) => {
       selling_price: parseFloat(sellingPrice),
     };
 
-    try {
-      await dispatch(editProduct(updatedProduct)).unwrap();
-      console.log("Product updated successfully!");
-      onClose();
-    } catch (error) {
-      console.error("Failed to update product:", error);
-    } finally {
-      setLoading(false);
-    }
+    console.log("Updated product:", updatedProduct);
+    // TODO: Update the product in your inventory data (state or API call)
+    onClose();
   };
 
   return (
@@ -66,6 +54,7 @@ const EditProductModal = ({ product, onClose }) => {
             <input
               type="text"
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter product name"
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
               required
@@ -76,6 +65,7 @@ const EditProductModal = ({ product, onClose }) => {
             <input
               type="text"
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="MM/YYYY"
               value={manufacturingDate}
               onChange={(e) => setManufacturingDate(e.target.value)}
             />
@@ -85,6 +75,7 @@ const EditProductModal = ({ product, onClose }) => {
             <input
               type="text"
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="MM/YYYY"
               value={expiryDate}
               onChange={(e) => setExpiryDate(e.target.value)}
             />
@@ -94,6 +85,7 @@ const EditProductModal = ({ product, onClose }) => {
             <input
               type="number"
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter stock quantity"
               value={stock}
               onChange={(e) => setStock(e.target.value)}
             />
@@ -104,6 +96,7 @@ const EditProductModal = ({ product, onClose }) => {
               type="number"
               step="0.01"
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter buying price"
               value={buyingPrice}
               onChange={(e) => setBuyingPrice(e.target.value)}
             />
@@ -114,16 +107,24 @@ const EditProductModal = ({ product, onClose }) => {
               type="number"
               step="0.01"
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter selling price"
               value={sellingPrice}
               onChange={(e) => setSellingPrice(e.target.value)}
             />
           </div>
           <div className="flex justify-end space-x-4 mt-4">
-            <button type="button" onClick={onClose} className="text-gray-600 px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100">
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-600 px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100"
+            >
               Cancel
             </button>
-            <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" disabled={loading}>
-              {loading ? "Updating..." : "Update Product"}
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            >
+              Update Product
             </button>
           </div>
         </form>
@@ -132,4 +133,4 @@ const EditProductModal = ({ product, onClose }) => {
   );
 };
 
-export default EditProductModal;
+export default EditOrderModal;
