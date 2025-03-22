@@ -1,15 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_LOGIN = "https://pharma.dreammonks.com/api/auth/login";
-const API_LOGOUT = "https://pharma.dreammonks.com/api/auth/logout";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-// Login thunk
 export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API_LOGIN, {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
         email,
         password,
       });
@@ -20,13 +18,12 @@ export const login = createAsyncThunk(
   }
 );
 
-// Logout thunk remains unchanged
 export const logout = createAsyncThunk(
   'auth/logout',
   async (token, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        API_LOGOUT,
+        `${API_BASE_URL}/api/auth/logout`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -60,10 +57,9 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        // Extract token from response.data.auth.token and user info if available.
         state.isAuthenticated = action.payload.auth.isLogin;
         state.token = action.payload.auth.token;
-        state.user = action.payload.auth.user || null; // if your API returns user details
+        state.user = action.payload.auth.user || null;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;

@@ -1,10 +1,23 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchProductCount } from "../../Redux/Reducers/Productslice"; 
 
 import Header from "../common/Header";
 import InventoryStatCard from "../Inventory/InventoryStatCard";
 import InventoryTable from "../Inventory/InventoryTable";
 
 const Inventory = () => {
+  const dispatch = useDispatch();
+
+  // Get product count from Redux store
+  const productCount = useSelector((state) => state.products.productCount);
+
+  useEffect(() => {
+    // Fetch product count when component mounts
+    dispatch(fetchProductCount());
+  }, [dispatch]);
 
   const OverallInventoryStats = [
     {
@@ -17,7 +30,7 @@ const Inventory = () => {
     },
     {
       title: "Total Product",
-      value1: "868",
+      value1: productCount || "0", // Dynamically set product count
       label1: "Last 7 Days",
       value2: "25000",
       label2: "Revenue",
@@ -40,11 +53,10 @@ const Inventory = () => {
       currency: false,
     },
   ];
-  
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title="Inventory"/>
+      <Header title="Inventory" />
 
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {/* STATS */}
@@ -59,10 +71,10 @@ const Inventory = () => {
           </div>
         </motion.div>
 
-        <InventoryTable/>
+        <InventoryTable />
       </main>
     </div>
-  )
-}
+  );
+};
 
 export default Inventory;
