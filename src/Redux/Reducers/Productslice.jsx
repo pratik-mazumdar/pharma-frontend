@@ -1,22 +1,29 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { showSnackbar } from "./snackbarSlice";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const getAuthToken = (getState) => getState().auth.token; 
+const getAuthToken = (getState) => getState().auth.token;
 
 // Thunk to fetch products with pagination
 export const fetchProducts = createAsyncThunk(
   "products/fetchAll",
-  async (page = 1, { getState, rejectWithValue }) => {
+  async (page = 1, { getState, rejectWithValue, dispatch }) => {
     try {
       const token = getAuthToken(getState);
-      const response = await axios.get(`${API_BASE_URL}/api/products?page=${page}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        `${API_BASE_URL}/api/products?page=${page}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to fetch products");
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch products";
+      dispatch(showSnackbar({ message: errorMessage, type: "error" }));
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -24,15 +31,24 @@ export const fetchProducts = createAsyncThunk(
 // Thunk to create a new product
 export const createProduct = createAsyncThunk(
   "products/createProduct",
-  async (productData, { getState, rejectWithValue }) => {
+  async (productData, { getState, rejectWithValue, dispatch }) => {
     try {
       const token = getAuthToken(getState);
-      const response = await axios.post(`${API_BASE_URL}/api/products`, productData, {
-        headers: { Authorization: `Bearer ${token}` }, 
-      });
-      return response.data; 
+      const response = await axios.post(
+        `${API_BASE_URL}/api/products`,
+        productData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(
+        showSnackbar({ message: "Product added successfully", type: "success" })
+      );
+      return response.data;
     } catch (error) {
-      console.error("API Error:", error.response?.data);
+      dispatch(
+        showSnackbar({ message: "Failed to add product", type: "error" })
+      );
       return rejectWithValue(error.response?.data || "Failed to add product");
     }
   }
@@ -41,112 +57,122 @@ export const createProduct = createAsyncThunk(
 // Thunk to edit a product
 export const editProduct = createAsyncThunk(
   "products/editProduct",
-  async (productData, { getState, rejectWithValue }) => {
+  async (productData, { getState, rejectWithValue, dispatch }) => {
     try {
       const token = getAuthToken(getState);
-      const response = await axios.put(`${API_BASE_URL}/api/products`, productData, {
-        headers: { Authorization: `Bearer ${token}` }, 
-      });
-      return response.data; 
+      const response = await axios.put(
+        `${API_BASE_URL}/api/products`,
+        productData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(
+        showSnackbar({
+          message: "Product updated successfully",
+          type: "success",
+        })
+      );
+      return response.data;
     } catch (error) {
-      console.error("API Error:", error.response?.data);
+      dispatch(
+        showSnackbar({ message: "Failed to edit product", type: "error" })
+      );
       return rejectWithValue(error.response?.data || "Failed to edit product");
     }
   }
 );
 
-// Thunk to get total product count
+// Thunk to fetch product count
 export const fetchProductCount = createAsyncThunk(
-  'products/fetchCount',
-  async (_, { getState, rejectWithValue }) => {
+  "products/fetchCount",
+  async (_, { getState, rejectWithValue, dispatch }) => {
     try {
       const token = getAuthToken(getState);
       const response = await axios.get(`${API_BASE_URL}/api/products/count`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
-      return response.data.products.count; 
+      return response.data.products.count;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to fetch product count");
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch products count";
+      dispatch(showSnackbar({ message: errorMessage, type: "error" }));
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
 const initialState = {
   products: { data: [], meta: {} },
-    loading: false,
-    error: null,
+  loading: false,
+  error: null,
 };
 
 const productSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-    .addCase(fetchProducts.pending, (state) => {
-      state.loading = true;
-    })
-    .addCase(fetchProducts.fulfilled, (state, action) => {
-      state.loading = false;
-      state.products = {
-        data: action.payload.products.data,
-        meta: action.payload.products.meta,
-      };
-    })
-    .addCase(fetchProducts.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    })
+      // Fetch Products
+      .addCase(fetchProducts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = {
+          data: action.payload.products.data,
+          meta: action.payload.products.meta,
+        };
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
       // Create Product
-    .addCase(createProduct.pending, (state) => {
+      .addCase(createProduct.pending, (state) => {
         state.loading = true;
         state.error = null;
-    })
-    .addCase(createProduct.fulfilled, (state, action) => {
-      if (!Array.isArray(state.products)) {
-          state.products = [];
-      }
-      
-      state.products.push(action.payload);
-      state.loading = false;
-    })
-    .addCase(createProduct.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    })
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products.data.push(action.payload);
+      })
+      .addCase(createProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-    .addCase(editProduct.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(editProduct.fulfilled, (state, action) => {
-      state.loading = false;
-      // Update the edited product in the product list
-      const updatedProduct = action.payload;
-      state.products.data = state.products.data.map((product) =>
-        product.id === updatedProduct.id ? updatedProduct : product
-      );
-    })
-    .addCase(editProduct.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    })
-            
+      // Edit Product
+      .addCase(editProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products.data = state.products.data.map((product) =>
+          product.id === action.payload.id ? action.payload : product
+        );
+      })
+      .addCase(editProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       // Fetch Product Count
-    .addCase(fetchProductCount.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(fetchProductCount.fulfilled, (state, action) => {
-      state.loading = false;
-      state.productCount = action.payload;
-    })
-    .addCase(fetchProductCount.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    });
+      .addCase(fetchProductCount.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductCount.fulfilled, (state, action) => {
+        state.loading = false;
+        state.productCount = action.payload;
+      })
+      .addCase(fetchProductCount.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
